@@ -24,8 +24,10 @@ def quantum_teleportation():
     qc.barrier()
 
     # Step 4: Bob applies corrections conditioned on classical bits
-    qc.x(2).c_if(1, 1)   # if m2 == 1, apply X
-    qc.z(2).c_if(0, 1)   # if m1 == 1, apply Z
+    with qc.if_test((qc.clbits[1], 1)):  # if m2 == 1, apply X
+        qc.x(2)
+    with qc.if_test((qc.clbits[0], 1)):  # if m1 == 1, apply Z
+        qc.z(2)
 
     return qc
 
